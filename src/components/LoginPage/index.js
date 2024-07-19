@@ -1,92 +1,126 @@
-import { Component } from "react";
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
+import { Component } from "react"
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import './index.css'
 
 const roles = [
-    {id: 'USER',displayText: 'User'},
-    {id: 'SCIENTIST',displayText: 'scientist'},
-    {id: 'ANALYST',displayText: 'analyst'},
-    {id: 'ADMIN',displayText: 'admin'},
+  {id: 'USER',displayText: 'User'},
+  {id: 'SCIENTIST',displayText: 'Scientist'},
+  {id: 'ANALYST',displayText: 'Analyst'},
+  {id: 'ADMIN',displayText: 'Admin'},
 ]
-  
 
 class LoginPage extends Component{
-    state = {
-      userName: '',
-      password: '',
-      role: roles[0].id,
-      isNameEmpty: false,
-      isPasswordEmpty: false,
-    }
+  state = {
+    userName: '',
+    password: '',
+    role: roles[0].id,
+  }
 
-    onSubmit = event => {
-        event.preventDefault()
-        const {userName,password,role} = this.state
-        console.log(userName,password,role);
+  onSubmit = event => {
+    event.preventDefault()
+    const {userName,password, role} = this.state
+    if(userName === '' || password === '') {
+      alert("Enter Your Credentials!!!")
+    } else {
+      if (role === 'USER') {
+        const userDetails = {
+          userName,
+          password,
+          role,
+        }
+        console.log(userDetails)
+      } else if (role === 'ADMIN') {
+        const adminDetails = {
+          userName,
+          password,
+          role,
+        }
+        console.log(adminDetails)
+      } else if (role === 'ANALYST') {
+        const analystDetails = {
+          userName,
+          password,
+          role,
+        }
+        console.log(analystDetails)
+      } else if (role === 'SCIENTIST') {
+        const adminDetails = {
+          userName,
+          password,
+          role,
+        }
+        console.log(adminDetails)
+      }
+      this.setState({userName: '', password: '', role: roles[0].id})
     }
+  }
 
-    onChangeUSername = event => {
-        this.setState({userName: event.target.value})
-    }
+  onChangeUSername = event => {
+    this.setState({userName: event.target.value})
+  }
 
-    onChangePassword = event => {
-        this.setState({password: event.target.value})
-    }
+  onChangePassword = event => {
+    this.setState({password: event.target.value})
+  }
 
-    onBlurName = event => {
-        this.setState(prevState => ({isNameEmpty: !prevState.isNameEmpty}))
-        console.log("user reqiured")
-    }
+  onChangeRole = event => {
+    this.setState({role: event.target.value})
+  }
 
-    onblurPassword= event => {
-        this.setState(prevState => ({isNameEmpty: !prevState.isNameEmpty}))
-        console.log("user password")
-    }
-
-    onChangeRole = event => {
-        this.setState({role: event.target.value})
-    }
-
-    render(){
-      const {userName, password, role} = this.state
-      return (
-        <div className="">
-            <FormControl className="" onSubmit={this.onSubmit}>
-                <h1>Log in</h1>
-                <TextField
-                required
-                id="outlined-required"
-                label="Username"
-                type="text"
-                onBlur={this.onBlurName}
-                /*placeholder="Username"*/
-                />
-                <TextField
-                id="outlined-password-input"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
-                onBlur={this.onblurPassword}
-                />
-                <select
-                    value={role}
-                    onChange={this.onChangeRole}
+  render(){
+    const {userName, password, role} = this.state
+    return (
+      <div className="login-pg-container">
+        <form className="login-card-container" onSubmit={this.onSubmit}>
+          <h1 className="main-heading">Log in</h1>
+          <div className="input-text">
+            <TextField
+              id="outlined-required"
+              label="name"
+              type="text"
+              placeholder="Enter Your Name"
+              autoComplete="off"
+              onChange={this.onChangeUSername}
+              value={userName}
+              className="input-text" 
+            />
+          </div>
+          <div className="input-text">
+            <TextField
+              id="outlined-password-input"
+              label="password"
+              type="password"
+              value={password}
+              placeholder="Enter your Password"
+              autoComplete="current-password"
+              onChange={this.onChangePassword}
+              className="input-text" 
+            />
+          </div>
+          <div className="input-text">
+            <select
+              id="outlined-select-option"
+              value={role}
+              className="select-role"
+              onChange={this.onChangeRole}
+            >
+              {roles.map((name) => (
+                <option
+                  key={name.id}
+                  value={name.id}
+                  className="options"
                 >
-                {roles.map((name) => (
-                    <option
-                    key={name.id}
-                    value={name.id}
-                    >
-                    {name.displayText}
-                    </option>
-                ))}
-                </select>
-                <Button type="submit" variant="contained" size="medium">Submit</Button>
-            </FormControl>
-        </div>
-      )
-    }
+                  {name.displayText}
+                </option>
+              ))}
+            </select>
+          </div>
+          <Button type="submit" variant="contained" size="medium">Submit</Button>
+        </form>
+    </div>
+    )
+  }
 }
 
 export default LoginPage
